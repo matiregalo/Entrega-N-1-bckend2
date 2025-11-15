@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "a9c324d4-7ebf-4659-a66a-d09dfddb0fe5",
+		"name": "backendFlex2",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49180016",
+		"_collection_link": "https://matiasregalo64-6206488.postman.co/workspace/Mat%C3%ADas's-Workspace~9278cc92-0cba-4d91-8696-fb25e366bf74/collection/49180016-a9c324d4-7ebf-4659-a66a-d09dfddb0fe5?action=share&source=collection_link&creator=49180016"
+	},
+	"item": [
+		{
+			"name": "UserLogout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"maria\",\r\n    \"age\": 12\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/sessions/logout",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"sessions",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserRegister",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Admin\",\r\n    \"last_name\": \"joaquinez\",\r\n    \"email\": \"adminCoder@coder.com\",\r\n    \"age\": 22,\r\n    \"password\": \"adminCod3r123\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/sessions/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"sessions",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserLogin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"a\",\r\n    \"password\": \"a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/sessions/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"sessions",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AdminPing",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"maria\",\r\n    \"age\": 12\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/private/ping",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"private",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserCurrent",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"a\",\r\n    \"password\": \"a\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/sessions/current",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"sessions",
+						"current"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
