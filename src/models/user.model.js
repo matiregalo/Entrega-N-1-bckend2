@@ -27,7 +27,7 @@ const userSchema = new Schema(
     },
     age: { type: Number, min: 0, max: 120 },
     password: { type: String, required: true },
-    cart: { type: Schema.Types.ObjectId, ref: "Cart", default: null },
+    ticket: { type: Schema.Types.ObjectId, ref: "ticket", default: null },
     role: { type: String, enum: ["user", "admin"], default: "user" },
   },
   {
