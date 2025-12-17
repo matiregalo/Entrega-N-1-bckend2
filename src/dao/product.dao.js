@@ -62,4 +62,34 @@ export default class ProductsDAO {
       throw new Error(`Error al eliminar producto: ${error.message}`);
     }
   }
+
+  async updateStock(id, quantity) {
+    try {
+      const product = await Product.findById(id);
+      if (!product) {
+        return null;
+      }
+      const newStock = product.stock - quantity;
+      if (newStock < 0) {
+        throw new Error(`Stock insuficiente. Disponible: ${product.stock}, Solicitado: ${quantity}`);
+      }
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { $set: { stock: newStock } },
+        { new: true, runValidators: true }
+      ).lean();
+      return updatedProduct;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getByIds(ids) {
+    try {
+      const products = await Product.find({ _id: { $in: ids } }).lean();
+      return products;
+    } catch (error) {
+      throw new Error(`Error al obtener productos: ${error.message}`);
+    }
+  }
 }
