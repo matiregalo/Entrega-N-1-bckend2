@@ -4,6 +4,7 @@ import error from "../middlewares/error.js";
 import passport from "../config/passport.js";
 import jwt from "jsonwebtoken";
 import { authenticateJWT } from "../middlewares/auth.js";
+import UserDto from "../dto/user.dto.js";
 
 const router = Router();
 const { JWT_SECRET, JWT_EXPIRES = "15m", COOKIE_NAME } = process.env;
@@ -29,7 +30,8 @@ router.post("/register", async (req, res, next) => {
       age,
       password,
     });
-    res.status(201).json({ ok: true, id: user.id });
+    const userDto = UserDto.from(user);
+    res.status(201).json({ ok: true, user: userDto });
   } catch (error) {
     if (error?.code == 11000)
       return res.status(409).json({ error: "Email ya registrado" });
@@ -67,12 +69,20 @@ router.post("/logout", (_req, res) => {
   res.json({ ok: true, message: "Token eliminado" });
 });
 
-router.get("/current", authenticateJWT, (req, res) => {
-  const { id, first_name, last_name, email, age, role } = req.user;
-  return res.json({
-    ok: true,
-    user: req.user,
-  });
+router.get("/current", authenticateJWT, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ ok: false, message: "Usuario no encontrado" });
+    }
+    const userDto = UserDto.from(user);
+    return res.json({
+      ok: true,
+      user: userDto,
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: error.message });
+  }
 });
 
 export default router;

@@ -17,8 +17,7 @@ export function attachUserFromCookie(req, res, next) {
       email: payload.email,
       role: payload.role,
     };
-    req.user = user;
-    res.locals.user = user;
+    res.locals.user = req.user;
     next();
   } catch (error) {
     next();
