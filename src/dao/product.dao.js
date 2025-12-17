@@ -1,16 +1,6 @@
 import Product from "../models/product.model.js";
 
 export default class ProductsDAO {
-  async getAll() {
-    try {
-      const products = await Product.find().lean();
-      return products;
-    } catch (error) {
-      throw new Error(`Error al obtener productos: ${error.message}`);
-    }
-  }
-
-
 
   async create(data) {
     try {
