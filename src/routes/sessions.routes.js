@@ -1,5 +1,5 @@
 import { Router } from "express";
-import User from "../models/User.js";
+import User from "../models/user.model.js";
 import error from "../middlewares/error.js";
 import passport from "../config/passport.js";
 import jwt from "jsonwebtoken";

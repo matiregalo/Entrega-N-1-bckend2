@@ -1,4 +1,6 @@
-import productsService from "../services/products.service";
+import ProductsService from "../services/products.service.js";
+
+const productsService = new ProductsService();
 
  export const getProducts = (req, res) => {
     const products = productsService.getAllProducts();

@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
-import User from "../models/User.js";
+import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
 const { JWT_SECRET, COOKIE_NAME } = process.env;
