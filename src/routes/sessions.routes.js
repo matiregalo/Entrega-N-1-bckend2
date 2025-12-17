@@ -67,16 +67,12 @@ router.post("/logout", (_req, res) => {
   res.json({ ok: true, message: "Token eliminado" });
 });
 
-router.get(
-  "/current",
-  authenticateJWT,
-  (req, res) => {
-    const { id, first_name, last_name, email, age, role } = req.user;
-    return res.json({
-      ok: true,
-      user: req.user,
-    });
-  },
-);
+router.get("/current", authenticateJWT, (req, res) => {
+  const { id, first_name, last_name, email, age, role } = req.user;
+  return res.json({
+    ok: true,
+    user: req.user,
+  });
+});
 
 export default router;
