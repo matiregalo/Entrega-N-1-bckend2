@@ -2,46 +2,67 @@ import ProductsService from "../services/products.service.js";
 
 const productsService = new ProductsService();
 
-export const getProducts = (req, res) => {
-  const products = productsService.getAllProducts();
-  res.send({ status: "success", payload: products });
-};
-
-export const getProductById = (req, res) => {
-  const id = Number(req.params.id);
-  const product = productsService.getProductById(id);
-  if (!product)
-    return res
-      .status(404)
-      .send({ status: "error", message: "Producto no encontrado" });
-  res.send({ status: "success", payload: product });
-};
-
-export const createProduct = (req, res) => {
+export const getProducts = async (req, res) => {
   try {
-    const newProduct = productsService.createProduct(req.body);
+    const products = await productsService.getAllProducts();
+    res.send({ status: "success", payload: products });
+  } catch (error) {
+    res.status(500).send({ status: "error", message: error.message });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const product = await productsService.getProductById(id);
+    res.send({ status: "success", payload: product });
+  } catch (error) {
+    if (error.message === "Producto no encontrado") {
+      return res
+        .status(404)
+        .send({ status: "error", message: "Producto no encontrado" });
+    }
+    res.status(500).send({ status: "error", message: error.message });
+  }
+};
+
+export const createProduct = async (req, res) => {
+  try {
+    const newProduct = await productsService.createProduct(req.body);
     res.status(201).send({ status: "success", payload: newProduct });
   } catch (error) {
-    res.status(404).send({ status: "error", message: error.message });
+    if (error.message.includes("validación") || error.message.includes("obligatorio")) {
+      return res.status(400).send({ status: "error", message: error.message });
+    }
+    res.status(500).send({ status: "error", message: error.message });
   }
 };
 
-export const updateProduct = (req, res) => {
-  const id = Number(req.params.id);
+export const updateProduct = async (req, res) => {
   try {
-    const update = productsService.updateProduct(id, req.body);
-    res.status(201).send({ status: "success", payload: update });
+    const id = req.params.id;
+    const update = await productsService.updateProduct(id, req.body);
+    res.status(200).send({ status: "success", payload: update });
   } catch (error) {
-    res.status(404).send({ status: "error", message: error.message });
+    if (error.message === "Producto no encontrado") {
+      return res.status(404).send({ status: "error", message: error.message });
+    }
+    if (error.message.includes("validación")) {
+      return res.status(400).send({ status: "error", message: error.message });
+    }
+    res.status(500).send({ status: "error", message: error.message });
   }
 };
 
-export const deleteProduct = (req, res) => {
-  const id = Number(req.params.id);
+export const deleteProduct = async (req, res) => {
   try {
-    productsService.deleteProduct(id);
-    res.status(201).send({ status: "success", message: "Eliminado" });
+    const id = req.params.id;
+    await productsService.deleteProduct(id);
+    res.status(200).send({ status: "success", message: "Producto eliminado correctamente" });
   } catch (error) {
-    res.status(404).send({ status: "error", message: error.message });
+    if (error.message === "Producto no encontrado") {
+      return res.status(404).send({ status: "error", message: error.message });
+    }
+    res.status(500).send({ status: "error", message: error.message });
   }
 };

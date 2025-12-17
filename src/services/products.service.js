@@ -1,26 +1,43 @@
-import ProductsDAO from "../dao/products.dao.js";
+import ProductsDAO from "../dao/product.dao.js";
 const productsDAO = new ProductsDAO();
 
 class ProductsServices {
-  getAllProducts() {
-    return productsDAO.getAll();
+  async getAllProducts() {
+    return await productsDAO.getAll();
   }
-  getProductById(id) {
-    return productsDAO.getById(id);
+
+  async getProductById(id) {
+    const product = await productsDAO.getById(id);
+    if (!product) {
+      throw new Error("Producto no encontrado");
+    }
+    return product;
   }
-  createProduct(data) {
-    if (!data.name) throw new Error("El nombre es obligatorio");
-    if (data.price < 0) throw new Error("El precio no puede ser negativo");
-    return productsDAO.create(data);
+
+  async createProduct(data) {
+    if (data.price !== undefined && data.price < 0) {
+      throw new Error("El precio no puede ser negativo");
+    }
+    return await productsDAO.create(data);
   }
-  updateProduct(id, data) {
-    const updated = productsDAO.getById(id);
-    if (!updated) throw new Error("Producto no encontrado");
-    return productsDAO.update(id, data);
+
+  async updateProduct(id, data) {
+    const product = await productsDAO.getById(id);
+    if (!product) {
+      throw new Error("Producto no encontrado");
+    }
+    return await productsDAO.update(id, data);
   }
-  deleteProduct(id) {
-    const ok = productsDAO.delete(id);
-    if (!ok) throw new Error("Producto no encontrado");
+
+  async deleteProduct(id) {
+    const product = await productsDAO.getById(id);
+    if (!product) {
+      throw new Error("Producto no encontrado");
+    }
+    const ok = await productsDAO.delete(id);
+    if (!ok) {
+      throw new Error("Error al eliminar el producto");
+    }
     return ok;
   }
 }

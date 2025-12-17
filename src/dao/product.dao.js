@@ -1,37 +1,65 @@
-let products = [];
-let nextId = 1;
+import Product from "../models/product.model.js";
+
 export default class ProductsDAO {
-  getAll() {
-    return products;
-  }
-  getById(id) {
-    return products.find((product) => product.id === id || null);
-  }
-  create(data) {
-    const newProduct = {
-      id: nextId++,
-      name: data.name,
-      price: data.price,
-      stock: data.stock ?? 0,
-      category: data.category ?? "general",
-    };
-    products.push(newProduct);
-    return newProduct;
-  }
-  update(id, data) {
-    const index = products.findIndex((product) => product.id === id);
-    if (index === -1) {
-      return null;
+  async getAll() {
+    try {
+      const products = await Product.find().lean();
+      return products;
+    } catch (error) {
+      throw new Error(`Error al obtener productos: ${error.message}`);
     }
-    products[index] = { ...products[index], ...data, id: products[index].id };
-    return products[index];
   }
-  delete(id) {
-    const index = products.findIndex((product) => product.id === id);
-    if (index === -1) {
-      return false;
+
+
+
+  async create(data) {
+    try {
+      const newProduct = new Product(data);
+      const savedProduct = await newProduct.save();
+      return savedProduct.toObject();
+    } catch (error) {
+      if (error.name === "ValidationError") {
+        throw new Error(`Error de validación: ${error.message}`);
+      }
+      throw new Error(`Error al crear producto: ${error.message}`);
     }
-    products.splice(index, 1);
-    return true;
+  }
+
+  async update(id, data) {
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { $set: data },
+        { new: true, runValidators: true }
+      ).lean();
+      
+      if (!updatedProduct) {
+        return null;
+      }
+      return updatedProduct;
+    } catch (error) {
+      if (error.name === "ValidationError") {
+        throw new Error(`Error de validación: ${error.message}`);
+      }
+      throw new Error(`Error al actualizar producto: ${error.message}`);
+    }
+  }
+
+
+  async getById(id) {
+    try {
+      const product = await Product.findById(id).lean();
+      return product || null;
+    } catch (error) {
+      throw new Error(`Error al obtener producto: ${error.message}`);
+    }
+  }
+  async delete(id) {
+    try {
+      const result = await Product.findByIdAndDelete(id);
+      return result !== null;
+    } catch (error) {
+      throw new Error(`Error al eliminar producto: ${error.message}`);
+    }
   }
 }
