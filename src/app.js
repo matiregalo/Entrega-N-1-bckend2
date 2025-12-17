@@ -12,6 +12,7 @@ import sessionRoutes from "./routes/sessions.routes.js";
 import privateRoutes from "./routes/private.routes.js";
 import productsRoutes from "./routes/products.routes.js";
 import ticketsRoutes from "./routes/tickets.routes.js";
+import usersRoutes from "./routes/users.routes.js";
 import { config } from "./config/config.js";
 
 const app = express();
@@ -34,6 +35,7 @@ app.use("/api/sessions", sessionRoutes);
 app.use("/api/private", privateRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/tickets", ticketsRoutes);
+app.use("/api/users", usersRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ message: "Ruta no encontrada" });
