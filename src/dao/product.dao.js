@@ -1,7 +1,6 @@
 import Product from "../models/product.model.js";
 
 export default class ProductsDAO {
-
   async create(data) {
     try {
       const newProduct = new Product(data);
@@ -20,9 +19,9 @@ export default class ProductsDAO {
       const updatedProduct = await Product.findByIdAndUpdate(
         id,
         { $set: data },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       ).lean();
-      
+
       if (!updatedProduct) {
         return null;
       }
@@ -34,7 +33,6 @@ export default class ProductsDAO {
       throw new Error(`Error al actualizar producto: ${error.message}`);
     }
   }
-
 
   async getById(id) {
     try {
@@ -61,12 +59,14 @@ export default class ProductsDAO {
       }
       const newStock = product.stock - quantity;
       if (newStock < 0) {
-        throw new Error(`Stock insuficiente. Disponible: ${product.stock}, Solicitado: ${quantity}`);
+        throw new Error(
+          `Stock insuficiente. Disponible: ${product.stock}, Solicitado: ${quantity}`,
+        );
       }
       const updatedProduct = await Product.findByIdAndUpdate(
         id,
         { $set: { stock: newStock } },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       ).lean();
       return updatedProduct;
     } catch (error) {

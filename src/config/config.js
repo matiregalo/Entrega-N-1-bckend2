@@ -33,4 +33,9 @@ export const config = {
   JWT_EXPIRES: process.env.JWT_EXPIRES,
   COOKIE_NAME: process.env.COOKIE_NAME,
   COOKIE_SECRET: process.env.COOKIE_SECRET,
+  mail: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+    from: process.env.MAIL_FROM,
+  },
 };

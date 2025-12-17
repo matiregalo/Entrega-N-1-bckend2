@@ -2,7 +2,6 @@ import ProductsDAO from "../dao/product.dao.js";
 const productsDAO = new ProductsDAO();
 
 class ProductsServices {
-
   async getProductById(id) {
     const product = await productsDAO.getById(id);
     if (!product) {
