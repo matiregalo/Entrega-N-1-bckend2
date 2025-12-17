@@ -1,4 +1,4 @@
-import ProductsDAO from "../dao/products.dao";
+import ProductsDAO from "../dao/products.dao.js";
 const productsDAO = new ProductsDAO();
 
 class ProductsServices{
