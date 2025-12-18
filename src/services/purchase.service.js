@@ -99,7 +99,10 @@ class PurchaseService {
       0,
     );
 
+    const code = `TICKET-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+
     const ticketData = {
+      code,
       purchaser: user._id || user.id,
       products: availableProducts,
       amount,

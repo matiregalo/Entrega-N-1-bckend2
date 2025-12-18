@@ -10,6 +10,10 @@ class ProductsServices {
     return product;
   }
 
+  async getProducts() {
+    return await productsDAO.getAll();
+  }
+
   async createProduct(data) {
     if (data.price !== undefined && data.price < 0) {
       throw new Error("El precio no puede ser negativo");

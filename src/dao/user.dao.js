@@ -37,14 +37,18 @@ export default class UserDAO {
 
   async updateResetToken(userId, resetToken, resetTokenExpires) {
     try {
-      const user = await userModel.findByIdAndUpdate(
-        userId,
-        { resetToken, resetTokenExpires },
-        { new: true }
-      ).lean();
+      const user = await userModel
+        .findByIdAndUpdate(
+          userId,
+          { resetToken, resetTokenExpires },
+          { new: true },
+        )
+        .lean();
       return user || null;
     } catch (error) {
-      throw new Error(`Error al actualizar token de recuperación: ${error.message}`);
+      throw new Error(
+        `Error al actualizar token de recuperación: ${error.message}`,
+      );
     }
   }
 
@@ -66,10 +70,12 @@ export default class UserDAO {
 
   async getByResetToken(token) {
     try {
-      const user = await userModel.findOne({
-        resetToken: token,
-        resetTokenExpires: { $gt: new Date() }
-      }).lean();
+      const user = await userModel
+        .findOne({
+          resetToken: token,
+          resetTokenExpires: { $gt: new Date() },
+        })
+        .lean();
       return user || null;
     } catch (error) {
       throw new Error(`Error al obtener usuario por token: ${error.message}`);

@@ -17,17 +17,16 @@ import notificationRoutes from "./routes/notification.routes.js";
 
 const app = express();
 
-app.use(helmet({
-  contentSecurityPolicy: false, 
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  }),
+);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.get("/reset-password.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/reset-password.html"));
-});
 app.use(cors({ origin: true, credentials: true }));
 app.use(morgan("dev"));
 app.use(express.json());

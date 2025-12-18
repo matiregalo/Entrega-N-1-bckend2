@@ -35,14 +35,13 @@ export class MailService {
     };
 
     try {
-      console.log(`📧 Intentando enviar email a: ${to}`);
       const info = await this.transporter.sendMail(mailOptions);
-      console.log(`✅ Email enviado exitosamente. Message ID: ${info.messageId}`);
       return info;
     } catch (error) {
-      console.error("❌ Error al enviar email:", error.message);
       if (error.code === "EAUTH") {
-        throw new Error("Error de autenticación. Verifica que MAIL_PASS sea una 'Contraseña de aplicación' de Gmail (no tu contraseña normal). Ve a: https://myaccount.google.com/apppasswords");
+        throw new Error(
+          "Error de autenticación. Verifica que MAIL_PASS sea una 'Contraseña de aplicación' de Gmail (no tu contraseña normal). Ve a: https://myaccount.google.com/apppasswords",
+        );
       }
       throw error;
     }

@@ -2,6 +2,18 @@ import ProductsService from "../services/products.service.js";
 
 const productsService = new ProductsService();
 
+export const getProducts = async (req, res) => {
+  try {
+    const result = await productsService.getProducts();
+    res.status(200).send({
+      status: "success",
+      payload: result,
+    });
+  } catch (error) {
+    res.status(500).send({ status: "error", message: error.message });
+  }
+};
+
 export const createProduct = async (req, res) => {
   try {
     const newProduct = await productsService.createProduct(req.body);
