@@ -4,6 +4,8 @@ import {
   registerUser,
   login,
   logout,
+  resetPassword,
+  showResetPasswordForm,
 } from "../controllers/users.controller.js";
 import { authenticateJWT } from "../middlewares/auth.js";
 
@@ -13,5 +15,7 @@ router.get("/current", authenticateJWT, getCurrentUser);
 router.post("/", registerUser);
 router.post("/login", login);
 router.post("/logout", logout);
+router.get("/reset-password", showResetPasswordForm); // Página HTML para restablecer contraseña
+router.post("/resetPassword", resetPassword);
 
 export default router;

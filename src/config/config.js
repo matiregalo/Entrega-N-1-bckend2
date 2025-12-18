@@ -38,4 +38,5 @@ export const config = {
     pass: process.env.MAIL_PASS,
     from: process.env.MAIL_FROM,
   },
+  FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173", // Puerto común para frontend (Vite/React)
 };

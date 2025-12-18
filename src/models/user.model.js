@@ -29,6 +29,8 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     ticket: { type: Schema.Types.ObjectId, ref: "ticket", default: null },
     role: { type: String, enum: ["user", "admin"], default: "user" },
+    resetToken: { type: String, default: null },
+    resetTokenExpires: { type: Date, default: null },
   },
   {
     timestamps: true,

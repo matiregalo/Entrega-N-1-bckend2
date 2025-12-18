@@ -24,4 +24,55 @@ export default class UserDAO {
       throw error;
     }
   }
+
+  async getByEmail(email) {
+    try {
+      const normalizedEmail = String(email).toLowerCase().trim();
+      const user = await userModel.findOne({ email: normalizedEmail }).lean();
+      return user || null;
+    } catch (error) {
+      throw new Error(`Error al obtener usuario por email: ${error.message}`);
+    }
+  }
+
+  async updateResetToken(userId, resetToken, resetTokenExpires) {
+    try {
+      const user = await userModel.findByIdAndUpdate(
+        userId,
+        { resetToken, resetTokenExpires },
+        { new: true }
+      ).lean();
+      return user || null;
+    } catch (error) {
+      throw new Error(`Error al actualizar token de recuperación: ${error.message}`);
+    }
+  }
+
+  async updatePassword(userId, newPassword) {
+    try {
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return null;
+      }
+      user.password = newPassword;
+      user.resetToken = null;
+      user.resetTokenExpires = null;
+      await user.save();
+      return user.toObject();
+    } catch (error) {
+      throw new Error(`Error al actualizar contraseña: ${error.message}`);
+    }
+  }
+
+  async getByResetToken(token) {
+    try {
+      const user = await userModel.findOne({
+        resetToken: token,
+        resetTokenExpires: { $gt: new Date() }
+      }).lean();
+      return user || null;
+    } catch (error) {
+      throw new Error(`Error al obtener usuario por token: ${error.message}`);
+    }
+  }
 }
