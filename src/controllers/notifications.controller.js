@@ -35,7 +35,7 @@ export const forgotPassword = async (req, res) => {
     const recoveryLink = `${frontendUrl}/reset-password.html?token=${resetToken}`;
 
     try {
-      const info = await mailService.sendTestMail(to, recoveryLink);
+      await mailService.sendTestMail(to, recoveryLink);
 
       return res.json({
         status: "success",
